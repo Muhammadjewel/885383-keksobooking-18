@@ -25,9 +25,11 @@ var MOCK_DATA = {
   ]
 };
 
-var MAP_CANVAS_WIDTH = 600;
+var MAP_CANVAS_WIDTH = 1200;
 var MAP_CANVAS_TOP_Y = 130;
 var MAP_CANVAS_BOTTOM_Y = 630;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
 var getRandomText = function (text, wordCount) {
   var splittedText = text.split(' ');
@@ -54,8 +56,8 @@ var getAvatarPath = function (suffixNumber) {
 var generateData = function () {
   var dataArray = [];
   for (var i = 0; i < MOCK_DATA.count; i++) {
-    var locationX = getRandomIntInclusive(0, MAP_CANVAS_WIDTH);
-    var locationY = getRandomIntInclusive(MAP_CANVAS_TOP_Y, MAP_CANVAS_BOTTOM_Y);
+    var locationX = getRandomIntInclusive(0, MAP_CANVAS_WIDTH - PIN_WIDTH / 2);
+    var locationY = getRandomIntInclusive(MAP_CANVAS_TOP_Y + PIN_HEIGHT, MAP_CANVAS_BOTTOM_Y);
 
     var newDataObject = {
       'author': {
@@ -89,3 +91,30 @@ var activateMap = function () {
 };
 
 activateMap();
+
+var generateMapPinElements = function (pinObjectsArray) {
+  var pinElements = [];
+  var pinTemplate = document.querySelector('#pin');
+  for (var i = 0; i < pinObjectsArray.length; i++) {
+    var pinClone = document.importNode(pinTemplate.content, true);
+    var pinButton = pinClone.querySelector('button');
+    pinButton.style.left = pinObjectsArray[i].location.x + 'px';
+    pinButton.style.top = pinObjectsArray[i].location.y + 'px';
+    var pinImage = pinClone.querySelector('img');
+    pinImage.src = pinObjectsArray[i].author.avatar;
+    pinImage.alt = pinObjectsArray[i].offer.title;
+    pinElements.push(pinClone);
+  }
+  return pinElements;
+};
+
+var renderMapPinElements = function (pinElementsArray) {
+  var mapPinsWrapper = document.querySelector('.map__pins');
+  var pinsFragment = document.createDocumentFragment();
+  for (var i = 0; i < pinElementsArray.length; i++) {
+    pinsFragment.appendChild(pinElementsArray[i]);
+  }
+  mapPinsWrapper.appendChild(pinsFragment);
+};
+
+renderMapPinElements(generateMapPinElements(generateData()));
