@@ -8,12 +8,21 @@ var MOCK_DATA = {
     'min': 3000,
     'max': 15000
   },
+  'type': ['palace', 'flat', 'house', 'bungalo'],
   'rooms': {
     'min': 1,
     'max': 8
   },
   'maxGuests': 12,
-  'maxWordsInDescription': 35
+  'checkin': ['12:00', '13:00', '14:00'],
+  'checkout': ['12:00', '13:00', '14:00'],
+  'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
+  'maxWordsInDescription': 35,
+  'photos': [
+    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  ]
 };
 
 var MAP_CANVAS_WIDTH = 600;
@@ -38,19 +47,32 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+var getAvatarPath = function (suffixNumber) {
+  return 'img/avatars/user0' + suffixNumber + '.png';
+};
+
 var generateData = function () {
   var dataArray = [];
   for (var i = 0; i < MOCK_DATA.count; i++) {
     var locationX = getRandomIntInclusive(0, MAP_CANVAS_WIDTH);
     var locationY = getRandomIntInclusive(MAP_CANVAS_TOP_Y, MAP_CANVAS_BOTTOM_Y);
+
     var newDataObject = {
+      'author': {
+        'avatar': getAvatarPath(i + 1)
+      },
       'offer': {
         'title': getRandomText(MOCK_DATA.randomText, MOCK_DATA.maxWordsInTitle),
         'address': locationX + ', ' + locationY,
         'price': getRandomIntInclusive(MOCK_DATA.price.min, MOCK_DATA.price.max),
+        'type': MOCK_DATA.type[getRandomInt(0, MOCK_DATA.type.length)],
         'rooms': getRandomIntInclusive(MOCK_DATA.rooms.min, MOCK_DATA.rooms.max),
         'guests': getRandomIntInclusive(0, MOCK_DATA.maxGuests),
-        'description': getRandomText(MOCK_DATA.randomText, MOCK_DATA.maxWordsInDescription)
+        'checkin': MOCK_DATA.checkin[getRandomInt(0, MOCK_DATA.checkin.length)],
+        'checkout': MOCK_DATA.checkout[getRandomInt(0, MOCK_DATA.checkout.length)],
+        'features': MOCK_DATA.features.slice(0, getRandomInt(1, MOCK_DATA.features.length)),
+        'description': getRandomText(MOCK_DATA.randomText, MOCK_DATA.maxWordsInDescription),
+        'photos': MOCK_DATA.photos.slice(0, getRandomInt(1, MOCK_DATA.photos.length))
       },
       'location': {
         'x': locationX,
