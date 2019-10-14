@@ -49,7 +49,43 @@ var getAvatarPath = function (suffixNumber) {
 };
 
 var generateMockTitle = function (index) {
-  getRandomText(MOCK_DATA.announcementTitles, index);
+  return getRandomText(MOCK_DATA.announcementTitles, index);
+};
+
+var generateMockPrice = function () {
+  return getRandomNumber(MOCK_DATA.price.min, MOCK_DATA.price.max);
+};
+
+var generateMockType = function () {
+  return MOCK_DATA.type[getRandomNumber(0, MOCK_DATA.type.length)];
+};
+
+var generateMockRoomsCount = function () {
+  return getRandomNumber(MOCK_DATA.rooms.min, MOCK_DATA.rooms.max);
+};
+
+var generateMockGuestsCount = function () {
+  return getRandomNumber(0, MOCK_DATA.maxGuests);
+};
+
+var generateMockCheckin = function () {
+  return MOCK_DATA.checkin[getRandomNumber(0, MOCK_DATA.checkin.length)];
+};
+
+var generateMockPhotos = function () {
+  return MOCK_DATA.photos.slice(0, getRandomNumber(1, MOCK_DATA.photos.length));
+};
+
+var generateMockFeatures = function () {
+  return MOCK_DATA.features.slice(0, getRandomNumber(1, MOCK_DATA.features.length));
+};
+
+var generateMockDescription = function (index) {
+  return getRandomText(MOCK_DATA.descriptionTexts, index);
+};
+
+var generateMockCheckout = function () {
+  return MOCK_DATA.checkout[getRandomNumber(0, MOCK_DATA.checkout.length)];
 };
 
 var generateData = function () {
@@ -66,15 +102,15 @@ var generateData = function () {
       'offer': {
         'title': generateMockTitle(i),
         'address': locationX + ', ' + locationY,
-        'price': getRandomNumber(MOCK_DATA.price.min, MOCK_DATA.price.max),
-        'type': MOCK_DATA.type[getRandomNumber(0, MOCK_DATA.type.length)],
-        'rooms': getRandomNumber(MOCK_DATA.rooms.min, MOCK_DATA.rooms.max),
-        'guests': getRandomNumber(0, MOCK_DATA.maxGuests),
-        'checkin': MOCK_DATA.checkin[getRandomNumber(0, MOCK_DATA.checkin.length)],
-        'checkout': MOCK_DATA.checkout[getRandomNumber(0, MOCK_DATA.checkout.length)],
-        'features': MOCK_DATA.features.slice(0, getRandomNumber(1, MOCK_DATA.features.length)),
-        'description': getRandomText(MOCK_DATA.descriptionTexts, i),
-        'photos': MOCK_DATA.photos.slice(0, getRandomNumber(1, MOCK_DATA.photos.length))
+        'price': generateMockPrice(),
+        'type': generateMockType(),
+        'rooms': generateMockRoomsCount(),
+        'guests': generateMockGuestsCount(),
+        'checkin': generateMockCheckin(),
+        'checkout': generateMockCheckout(),
+        'features': generateMockFeatures(),
+        'description': generateMockDescription(i),
+        'photos': generateMockPhotos()
       },
       'location': {
         'x': locationX,
