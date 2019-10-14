@@ -2,7 +2,9 @@
 
 var MOCK_DATA = {
   'count': 8,
-  'randomText': 'Далеко-далеко за словесными горами в стране, гласных и согласных живут рыбные тексты. Собрал великий составитель запятой переулка имеет осталось lorem коварных, рыбными свою? Страна залетают ее то несколько путь lorem точках он меня если приставка ipsum напоивший, страну над жизни выйти коварный домах оксмокс вскоре коварных, запятых. Вскоре lorem повстречался но буквенных обеспечивает, деревни своего эта напоивший вершину ему она продолжил возвращайся вопроса, переулка имени за буквоград, последний правилами. Подзаголовок, предупредила, ты! Речью если власти вопроса домах грустный запятых букв! Выйти, вскоре, дороге! Даль гор, первую взгляд себя скатился повстречался строчка всеми мир. Буквенных свой дал, но меня единственное. Ручеек своих lorem деревни великий вершину использовало лучше, грустный заголовок инициал семантика домах напоивший все необходимыми рукопись продолжил но семь продолжил грамматики меня? Коварный, это дорогу которое однажды. Осталось путь своих силуэт текста выйти заглавных дороге, толку предупредила пор. Точках наш, строчка вопрос.',
+  'announcementTitles': [
+    'Объявление 1', 'Объявление 2', 'Объявление 3', 'Объявление 4', 'Объявление 5', 'Объявление 6', 'Объявление 7', 'Объявление 8'
+  ],
   'maxWordsInTitle': 5,
   'price': {
     'min': 3000,
@@ -17,7 +19,7 @@ var MOCK_DATA = {
   'checkin': ['12:00', '13:00', '14:00'],
   'checkout': ['12:00', '13:00', '14:00'],
   'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  'maxWordsInDescription': 35,
+  'descriptionTexts': ['Описание 1', 'Описание 2', 'Описание 3', 'Описание 4', 'Описание 5', 'Описание 6', 'Описание 7', 'Описание 8'],
   'photos': [
     'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
     'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -31,21 +33,21 @@ var MAP_CANVAS_BOTTOM_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
-var getRandomText = function (text, wordCount) {
-  var splittedText = text.split(' ');
-  var startingPoint = Math.floor(Math.random() * (splittedText.length - wordCount));
-  return splittedText.splice(startingPoint, wordCount).join(' ');
+var getRandomText = function (textsArray, arrayIndex) {
+  return textsArray[arrayIndex];
 };
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
+
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
+
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
@@ -55,6 +57,7 @@ var getAvatarPath = function (suffixNumber) {
 
 var generateData = function () {
   var dataArray = [];
+
   for (var i = 0; i < MOCK_DATA.count; i++) {
     var locationX = getRandomIntInclusive(0, MAP_CANVAS_WIDTH - PIN_WIDTH / 2);
     var locationY = getRandomIntInclusive(MAP_CANVAS_TOP_Y + PIN_HEIGHT, MAP_CANVAS_BOTTOM_Y);
@@ -64,7 +67,7 @@ var generateData = function () {
         'avatar': getAvatarPath(i + 1)
       },
       'offer': {
-        'title': getRandomText(MOCK_DATA.randomText, MOCK_DATA.maxWordsInTitle),
+        'title': getRandomText(MOCK_DATA.announcementTitles, i),
         'address': locationX + ', ' + locationY,
         'price': getRandomIntInclusive(MOCK_DATA.price.min, MOCK_DATA.price.max),
         'type': MOCK_DATA.type[getRandomInt(0, MOCK_DATA.type.length)],
@@ -73,7 +76,7 @@ var generateData = function () {
         'checkin': MOCK_DATA.checkin[getRandomInt(0, MOCK_DATA.checkin.length)],
         'checkout': MOCK_DATA.checkout[getRandomInt(0, MOCK_DATA.checkout.length)],
         'features': MOCK_DATA.features.slice(0, getRandomInt(1, MOCK_DATA.features.length)),
-        'description': getRandomText(MOCK_DATA.randomText, MOCK_DATA.maxWordsInDescription),
+        'description': getRandomText(MOCK_DATA.descriptionTexts, i),
         'photos': MOCK_DATA.photos.slice(0, getRandomInt(1, MOCK_DATA.photos.length))
       },
       'location': {
@@ -81,8 +84,10 @@ var generateData = function () {
         'y': locationY
       }
     };
+
     dataArray.push(newDataObject);
   }
+
   return dataArray;
 };
 
@@ -95,6 +100,7 @@ activateMap();
 var generateMapPinElements = function (pinObjectsArray) {
   var pinElements = [];
   var pinTemplate = document.querySelector('#pin');
+
   for (var i = 0; i < pinObjectsArray.length; i++) {
     var pinClone = document.importNode(pinTemplate.content, true);
     var pinButton = pinClone.querySelector('button');
@@ -105,15 +111,18 @@ var generateMapPinElements = function (pinObjectsArray) {
     pinImage.alt = pinObjectsArray[i].offer.title;
     pinElements.push(pinClone);
   }
+
   return pinElements;
 };
 
 var renderMapPinElements = function (pinElementsArray) {
   var mapPinsWrapper = document.querySelector('.map__pins');
   var pinsFragment = document.createDocumentFragment();
+
   for (var i = 0; i < pinElementsArray.length; i++) {
     pinsFragment.appendChild(pinElementsArray[i]);
   }
+
   mapPinsWrapper.appendChild(pinsFragment);
 };
 
