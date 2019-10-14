@@ -128,8 +128,6 @@ var activateMap = function () {
   document.querySelector('.map').classList.remove('map--faded');
 };
 
-activateMap();
-
 var generateMapPinElements = function (pinObjectsArray) {
   var pinElements = [];
   var pinTemplate = document.querySelector('#pin');
@@ -137,11 +135,14 @@ var generateMapPinElements = function (pinObjectsArray) {
   for (var i = 0; i < pinObjectsArray.length; i++) {
     var pinClone = document.importNode(pinTemplate.content, true);
     var pinButton = pinClone.querySelector('button');
+    var pinImage = pinClone.querySelector('img');
+
     pinButton.style.left = pinObjectsArray[i].location.x + 'px';
     pinButton.style.top = pinObjectsArray[i].location.y + 'px';
-    var pinImage = pinClone.querySelector('img');
+
     pinImage.src = pinObjectsArray[i].author.avatar;
     pinImage.alt = pinObjectsArray[i].offer.title;
+
     pinElements.push(pinClone);
   }
 
@@ -159,4 +160,5 @@ var renderMapPinElements = function (pinElementsArray) {
   mapPinsWrapper.appendChild(pinsFragment);
 };
 
+activateMap();
 renderMapPinElements(generateMapPinElements(generateData()));
