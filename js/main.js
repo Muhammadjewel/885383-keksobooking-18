@@ -122,28 +122,35 @@ var renderMapPinElements = function (pinElementsArray) {
   mapPinsElement.appendChild(pinsFragmentElement);
 };
 
+var getOfferType = function (value) {
+  switch (value) {
+    case 'flat':
+      var newValue = 'Квартира';
+      break;
+    case 'bungalo':
+      newValue = 'Бунгало';
+      break;
+    case 'house':
+      newValue = 'Дом';
+      break;
+    case 'palace':
+      newValue = 'Дворец';
+      break;
+  }
+  return newValue;
+};
+
 var generateCardElement = function (ad) {
   var cardTemplateElement = document.querySelector('#card');
   var cardCloneElement = document.importNode(cardTemplateElement.content, true);
-  var offerTypeText;
   var popupFeaturesElement = cardCloneElement.querySelector('.popup__features');
   var popupPhotosElement = cardCloneElement.querySelector('.popup__photos');
-
-  if (ad.offer.type === 'flat') {
-    offerTypeText = 'Квартира';
-  } else if (ad.offer.type === 'bungalo') {
-    offerTypeText = 'Бунгало';
-  } else if (ad.offer.type === 'house') {
-    offerTypeText = 'Дом';
-  } else if (ad.offer.type === 'palace') {
-    offerTypeText = 'Дворец';
-  }
 
   cardCloneElement.querySelector('.popup__avatar').src = ad.author.avatar;
   cardCloneElement.querySelector('.popup__title').textContent = ad.offer.title;
   cardCloneElement.querySelector('.popup__text--address').textContent = ad.offer.address;
   cardCloneElement.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-  cardCloneElement.querySelector('.popup__type').textContent = offerTypeText;
+  cardCloneElement.querySelector('.popup__type').textContent = getOfferType(ad.offer.type);
   cardCloneElement.querySelector('.popup__description ').textContent = ad.offer.description;
   cardCloneElement.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей';
   cardCloneElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
