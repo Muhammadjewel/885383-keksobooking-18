@@ -140,6 +140,14 @@ var getOfferType = function (value) {
   return newValue;
 };
 
+var getFeatureElementAsString = function (featureClass) {
+  return '<li class="popup__feature popup__feature--' + featureClass + '"></li>';
+};
+
+var getPopupPhotoElementAsString = function (photoSource) {
+  return '<img class="popup__photo" src="' + photoSource + '" width="' + POPUP_PHOTO_WIDTH + '" height="' + POPUP_PHOTO_HEIGHT + '" alt="Фотография жилья">';
+};
+
 var generateCardElement = function (ad) {
   var cardTemplateElement = document.querySelector('#card');
   var cardCloneElement = document.importNode(cardTemplateElement.content, true);
@@ -156,24 +164,10 @@ var generateCardElement = function (ad) {
   cardCloneElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
 
   popupFeaturesElement.innerHTML = '';
-  for (var i = 0; i < ad.offer.features.length; i++) {
-    var featuresItemElement = document.createElement('li');
-
-    featuresItemElement.classList.add('popup__feature', 'popup__feature--' + ad.offer.features[i]);
-    popupFeaturesElement.appendChild(featuresItemElement);
-  }
+  popupFeaturesElement.insertAdjacentHTML('afterbegin', ad.offer.features.map(getFeatureElementAsString).join(' '));
 
   popupPhotosElement.innerHTML = '';
-  for (var j = 0; j < ad.offer.photos.length; j++) {
-    var popupImageElement = document.createElement('img');
-
-    popupImageElement.classList.add('popup__photo');
-    popupImageElement.src = ad.offer.photos[j];
-    popupImageElement.alt = ad.offer.title;
-    popupImageElement.width = POPUP_PHOTO_WIDTH;
-    popupImageElement.height = POPUP_PHOTO_HEIGHT;
-    popupPhotosElement.appendChild(popupImageElement);
-  }
+  popupPhotosElement.insertAdjacentHTML('afterbegin', ad.offer.photos.map(getPopupPhotoElementAsString).join(' '));
 
   return cardCloneElement;
 };
