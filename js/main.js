@@ -86,9 +86,36 @@ var generateData = function () {
   return dataArray;
 };
 
-var activateMap = function () {
-  document.querySelector('.map').classList.remove('map--faded');
+var mapElement = document.querySelector('.map');
+var adFormElement = document.querySelector('.ad-form');
+var mapFiltersElement = document.querySelector('.map__filters');
+var adFormFieldsets = adFormElement.querySelectorAll('fieldset');
+
+var activateApp = function () {
+  mapElement.classList.remove('map--faded');
+
+  mapElement.classList.remove('map--faded');
+  adFormElement.classList.remove('ad-form--disabled');
+  mapFiltersElement.classList.remove('ad-form--disabled');
+
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = false;
+  }
 };
+
+var deactivateApp = function () {
+  mapElement.classList.add('map--faded');
+  adFormElement.classList.add('ad-form--disabled');
+  mapFiltersElement.classList.add('ad-form--disabled');
+
+  for (var i = 0; i < adFormFieldsets.length; i++) {
+    adFormFieldsets[i].disabled = true;
+  }
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  deactivateApp();
+});
 
 var generateMapPinElements = function (pinObjectsArray) {
   var pinElements = [];
@@ -172,14 +199,20 @@ var generateCardElement = function (ad) {
   return cardCloneElement;
 };
 
-activateMap();
-
 var generatedData = generateData();
 
 renderMapPinElements(generateMapPinElements(generatedData));
 
 var testCardElement = generateCardElement(generatedData[0]);
-var mapElement = document.querySelector('.map');
 var mapFiltersContainerElement = mapElement.querySelector('.map__filters-container');
 
 mapElement.insertBefore(testCardElement, mapFiltersContainerElement);
+
+var mainMapPinElement = document.querySelector('.map__pin--main');
+
+mainMapPinElement.addEventListener('mousedown', activateApp);
+mainMapPinElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
+    activateApp();
+  }
+});
