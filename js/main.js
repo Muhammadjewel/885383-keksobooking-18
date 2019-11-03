@@ -123,9 +123,9 @@ var deactivateApp = function () {
 var setMainMapPinAddress = function () {
   var mainMapPinPosition;
   if (appIsActive) {
-    mainMapPinPosition = (mainMapPinElement.offsetLeft + PIN_WIDTH / 2) + ', ' + (mainMapPinElement.offsetTop + PIN_HEIGHT);
+    mainMapPinPosition = Math.round((mainMapPinElement.offsetLeft + PIN_WIDTH / 2)) + ', ' + (Math.round(mainMapPinElement.offsetTop) + PIN_HEIGHT);
   } else {
-    mainMapPinPosition = mainMapPinElement.offsetLeft + ', ' + mainMapPinElement.offsetTop;
+    mainMapPinPosition = Math.round(mainMapPinElement.offsetLeft) + ', ' + Math.round(mainMapPinElement.offsetTop);
   }
   addressInputElement.value = mainMapPinPosition;
 };
