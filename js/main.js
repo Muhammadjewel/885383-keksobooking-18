@@ -50,10 +50,10 @@ var getAvatarPath = function (suffixNumber) {
   return 'img/avatars/user0' + suffixNumber + '.png';
 };
 
-var generateData = function () {
+var generateData = function (count) {
   var dataArray = [];
 
-  for (var i = 0; i < MOCK_DATA.count; i++) {
+  for (var i = 0; i < count; i++) {
     var locationX = getRandomNumber(0, MAP_CANVAS_WIDTH - PIN_WIDTH / 2);
     var locationY = getRandomNumber(MAP_CANVAS_TOP_Y + PIN_HEIGHT, MAP_CANVAS_BOTTOM_Y);
 
