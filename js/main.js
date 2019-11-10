@@ -114,9 +114,9 @@ var activateApp = function () {
   mapFiltersElement.classList.remove('ad-form--disabled');
   renderMapPinElements(generateMapPinElements(generateData(8)));
 
-  for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].disabled = false;
-  }
+  adFormFieldsets.forEach(function (adFormFieldsetsItem) {
+    adFormFieldsetsItem.disabled = false;
+  });
 };
 
 var deactivateApp = function () {
@@ -126,9 +126,9 @@ var deactivateApp = function () {
   adFormElement.classList.add('ad-form--disabled');
   mapFiltersElement.classList.add('ad-form--disabled');
 
-  for (var i = 0; i < adFormFieldsets.length; i++) {
-    adFormFieldsets[i].disabled = true;
-  }
+  adFormFieldsets.forEach(function (adFormFieldsetsItem) {
+    adFormFieldsetsItem.disabled = true;
+  });
 };
 
 var setMainMapPinAddress = function () {
