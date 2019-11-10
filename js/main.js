@@ -94,13 +94,14 @@ var generateMapPinElements = function (pinObjectsArray) {
   var pinElements = [];
   var pinTemplateElement = document.querySelector('#pin');
 
-  pinObjectsArray.forEach(function (pinObject) {
+  pinObjectsArray.forEach(function (pinObject, index) {
     var pinCloneElement = document.importNode(pinTemplateElement.content, true);
     var pinButtonElement = pinCloneElement.querySelector('button');
     var pinImageElement = pinCloneElement.querySelector('img');
 
     pinButtonElement.style.left = pinObject.location.x + 'px';
     pinButtonElement.style.top = pinObject.location.y + 'px';
+    pinButtonElement.dataset.index = index;
 
     pinImageElement.src = pinObject.author.avatar;
     pinImageElement.alt = pinObject.offer.title;
@@ -178,8 +179,13 @@ var generatedData = generateData();
 
 renderMapPinElements(generateMapPinElements(generatedData));
 
-var testCardElement = generateCardElement(generatedData[0]);
 var mapElement = document.querySelector('.map');
 var mapFiltersContainerElement = mapElement.querySelector('.map__filters-container');
 
-mapElement.insertBefore(testCardElement, mapFiltersContainerElement);
+var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+mapPinElements.forEach(function (mapPinElement) {
+  mapPinElement.addEventListener('click', function () {
+    var cardElement = generateCardElement(generatedData[this.dataset.index]);
+    mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+  });
+});
