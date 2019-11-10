@@ -42,6 +42,7 @@ var BUNGALO_GUESTS_CAPACITY = 1;
 var FLAT_GUESTS_CAPACITY = 2;
 var HOUSE_GUESTS_CAPACITY = 3;
 var PALACE_GUESTS_CAPACITY = 0;
+var ENTER_KEY_CODE = 13;
 
 var getRandomText = function (textsArray, arrayIndex) {
   return textsArray[arrayIndex];
@@ -229,7 +230,7 @@ var generateCardElement = function (ad) {
 
 mainMapPinElement.addEventListener('mousedown', activateApp);
 mainMapPinElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
     activateApp();
   }
 });
