@@ -228,6 +228,7 @@ mapPinElements.forEach(function (mapPinElement) {
 var typeSelectElement = document.querySelector('#type');
 var priceInputElement = document.querySelector('#price');
 
+// TODO - trigger select fields' validation on DOMLoad
 var typeSelectElementChangeHandler = function () {
   if (typeSelectElement.value === 'bungalo') {
     priceInputElement.min = 0;
