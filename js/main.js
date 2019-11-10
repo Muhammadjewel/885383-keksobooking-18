@@ -223,3 +223,27 @@ mapPinElements.forEach(function (mapPinElement) {
     }
   });
 });
+
+// TODO - select ad-form and search elements inside of it via the ad-form var, not document
+var typeSelectElement = document.querySelector('#type');
+var priceInputElement = document.querySelector('#price');
+
+var typeSelectElementChangeHandler = function () {
+  if (typeSelectElement.value === 'bungalo') {
+    priceInputElement.min = 0;
+    priceInputElement.placeholder = 0;
+  } else if (typeSelectElement.value === 'flat') {
+    priceInputElement.min = 1000;
+    priceInputElement.placeholder = 1000;
+  } else if (typeSelectElement.value === 'house') {
+    priceInputElement.min = 5000;
+    priceInputElement.placeholder = 5000;
+  } else if (typeSelectElement.value === 'palace') {
+    priceInputElement.min = 10000;
+    priceInputElement.placeholder = 10000;
+  }
+};
+
+typeSelectElement.addEventListener('change', function () {
+  typeSelectElementChangeHandler();
+});
