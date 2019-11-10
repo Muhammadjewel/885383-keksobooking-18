@@ -200,4 +200,11 @@ mapPinElements.forEach(function (mapPinElement) {
     removeExistingPopupElement();
     generatePopupElement(this);
   });
+
+  mapPinElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === 13) {
+      removeExistingPopupElement();
+      generatePopupElement(this);
+    }
+  });
 });
