@@ -248,3 +248,26 @@ var typeSelectElementChangeHandler = function () {
 typeSelectElement.addEventListener('change', function () {
   typeSelectElementChangeHandler();
 });
+
+var timeInSelectElement = document.querySelector('#timein');
+var timeOutSelectElement = document.querySelector('#timeout');
+
+timeInSelectElement.addEventListener('change', function () {
+  if (timeInSelectElement.value === '12:00') {
+    timeOutSelectElement.selectedIndex = 0;
+  } else if (timeInSelectElement.value === '13:00') {
+    timeOutSelectElement.selectedIndex = 1;
+  } else if (timeInSelectElement.value === '14:00') {
+    timeOutSelectElement.selectedIndex = 2;
+  }
+});
+
+timeOutSelectElement.addEventListener('change', function () {
+  if (timeOutSelectElement.value === '12:00') {
+    timeInSelectElement.selectedIndex = 0;
+  } else if (timeOutSelectElement.value === '13:00') {
+    timeInSelectElement.selectedIndex = 1;
+  } else if (timeOutSelectElement.value === '14:00') {
+    timeInSelectElement.selectedIndex = 2;
+  }
+});
