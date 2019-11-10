@@ -182,9 +182,17 @@ renderMapPinElements(generateMapPinElements(generatedData));
 var mapElement = document.querySelector('.map');
 var mapFiltersContainerElement = mapElement.querySelector('.map__filters-container');
 
+var removeExistingPopupElement = function () {
+  var existingPopupElement = document.querySelector('.popup');
+  if (existingPopupElement) {
+    existingPopupElement.remove();
+  }
+};
+
 var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('click', function () {
+    removeExistingPopupElement();
     var cardElement = generateCardElement(generatedData[this.dataset.index]);
     mapElement.insertBefore(cardElement, mapFiltersContainerElement);
   });
