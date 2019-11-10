@@ -93,6 +93,8 @@ var mapFiltersElement = document.querySelector('.map__filters');
 var adFormFieldsets = adFormElement.querySelectorAll('fieldset');
 var mainMapPinElement = document.querySelector('.map__pin--main');
 var addressInputElement = document.querySelector('#address');
+var roomNumberSelectElement = document.querySelector('#room_number');
+var capacitySelectElement = document.querySelector('#capacity');
 
 var activateApp = function () {
   appIsActive = true;
@@ -221,4 +223,29 @@ mainMapPinElement.addEventListener('keydown', function (evt) {
   if (evt.keyCode === 13) {
     activateApp();
   }
+});
+
+var checkForRoomTypeComplianceForGuests = function () {
+  var roomNumberCount = parseInt(roomNumberSelectElement.value, 10);
+  var capacity = parseInt(capacitySelectElement.value, 10);
+
+  if (roomNumberCount === 1 && capacity !== 1) {
+    capacitySelectElement.setCustomValidity('1 room = 1 guest');
+  } else if (roomNumberCount === 2 && (capacity === 0 && capacity > 2)) {
+    capacitySelectElement.setCustomValidity('2 rooms = < 2 guests');
+  } else if (roomNumberCount === 3 && (capacity === 0 && capacity > 3)) {
+    capacitySelectElement.setCustomValidity('3 rooms = < 3 guests');
+  } else if (roomNumberCount === 100 && capacity !== 0) {
+    capacitySelectElement.setCustomValidity('No guests allowed');
+  } else {
+    capacitySelectElement.setCustomValidity('');
+  }
+};
+
+roomNumberSelectElement.addEventListener('change', function () {
+  checkForRoomTypeComplianceForGuests();
+});
+
+capacitySelectElement.addEventListener('change', function () {
+  checkForRoomTypeComplianceForGuests();
 });
