@@ -34,6 +34,12 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var POPUP_PHOTO_WIDTH = 45;
 var POPUP_PHOTO_HEIGHT = 40;
+var ESC_KEY_CODE = 27;
+var ENTER_KEY_CODE = 13;
+var MIN_PRICE_FOR_BUNGALO = 0;
+var MIN_PRICE_FOR_FLAT = 1000;
+var MIN_PRICE_FOR_HOUSE = 5000;
+var MIN_PRICE_FOR_PALACE = 10000;
 
 var getRandomText = function (textsArray, arrayIndex) {
   return textsArray[arrayIndex];
@@ -198,7 +204,7 @@ var generateAndInsertPopupElement = function (mapPin) {
 };
 
 var popupEscHandler = function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === ESC_KEY_CODE) {
     closePopupElement();
   }
 };
@@ -217,7 +223,7 @@ mapPinElements.forEach(function (mapPinElement) {
   });
 
   mapPinElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
       closePopupElement();
       generateAndInsertPopupElement(this);
     }
@@ -231,17 +237,17 @@ var priceInputElement = document.querySelector('#price');
 // TODO - trigger select fields' validation on DOMLoad
 var typeSelectElementChangeHandler = function () {
   if (typeSelectElement.value === 'bungalo') {
-    priceInputElement.min = 0;
-    priceInputElement.placeholder = 0;
+    priceInputElement.min = MIN_PRICE_FOR_BUNGALO;
+    priceInputElement.placeholder = MIN_PRICE_FOR_BUNGALO;
   } else if (typeSelectElement.value === 'flat') {
-    priceInputElement.min = 1000;
-    priceInputElement.placeholder = 1000;
+    priceInputElement.min = MIN_PRICE_FOR_FLAT;
+    priceInputElement.placeholder = MIN_PRICE_FOR_FLAT;
   } else if (typeSelectElement.value === 'house') {
-    priceInputElement.min = 5000;
-    priceInputElement.placeholder = 5000;
+    priceInputElement.min = MIN_PRICE_FOR_HOUSE;
+    priceInputElement.placeholder = MIN_PRICE_FOR_HOUSE;
   } else if (typeSelectElement.value === 'palace') {
-    priceInputElement.min = 10000;
-    priceInputElement.placeholder = 10000;
+    priceInputElement.min = MIN_PRICE_FOR_PALACE;
+    priceInputElement.placeholder = MIN_PRICE_FOR_PALACE;
   }
 };
 
