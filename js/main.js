@@ -182,28 +182,43 @@ renderMapPinElements(generateMapPinElements(generatedData));
 var mapElement = document.querySelector('.map');
 var mapFiltersContainerElement = mapElement.querySelector('.map__filters-container');
 
-var removeExistingPopupElement = function () {
-  var existingPopupElement = document.querySelector('.popup');
+var closePopupElement = function () {
+  var existingPopupElement = document.querySelector('.map__card.popup');
   if (existingPopupElement) {
     existingPopupElement.remove();
   }
+  document.removeEventListener('keydown', popupEscHandler);
 };
 
 var generateAndInsertPopupElement = function (mapPin) {
   var cardElement = generateCardElement(generatedData[mapPin.dataset.index]);
   mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+
+  document.addEventListener('keydown', popupEscHandler);
+};
+
+var popupEscHandler = function (evt) {
+  if (evt.keyCode === 27) {
+    closePopupElement();
+  }
 };
 
 var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
 mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('click', function () {
-    removeExistingPopupElement();
+    closePopupElement();
     generateAndInsertPopupElement(this);
+
+    var popupCloseElement = document.querySelector('.popup__close');
+    popupCloseElement.addEventListener('click', function () {
+      closePopupElement();
+    });
   });
 
   mapPinElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
-      removeExistingPopupElement();
+      closePopupElement();
       generateAndInsertPopupElement(this);
     }
   });
