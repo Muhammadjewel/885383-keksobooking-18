@@ -112,6 +112,7 @@ var activateApp = function () {
   mapElement.classList.remove('map--faded');
   adFormElement.classList.remove('ad-form--disabled');
   mapFiltersElement.classList.remove('ad-form--disabled');
+  renderMapPinElements(generateMapPinElements(generateData(8)));
 
   for (var i = 0; i < adFormFieldsets.length; i++) {
     adFormFieldsets[i].disabled = false;
