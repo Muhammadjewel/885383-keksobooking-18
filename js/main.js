@@ -34,6 +34,14 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var POPUP_PHOTO_WIDTH = 45;
 var POPUP_PHOTO_HEIGHT = 40;
+var BUNGALO_ROOMS_COUNT = 1;
+var FLAT_ROOMS_COUNT = 2;
+var HOUSE_ROOMS_COUNT = 3;
+var PALACE_ROOMS_COUNT = 100;
+var BUNGALO_GUESTS_CAPACITY = 1;
+var FLAT_GUESTS_CAPACITY = 2;
+var HOUSE_GUESTS_CAPACITY = 3;
+var PALACE_GUESTS_CAPACITY = 0;
 
 var getRandomText = function (textsArray, arrayIndex) {
   return textsArray[arrayIndex];
@@ -229,13 +237,13 @@ var checkForRoomTypeComplianceForGuests = function () {
   var roomNumberCount = parseInt(roomNumberSelectElement.value, 10);
   var capacity = parseInt(capacitySelectElement.value, 10);
 
-  if (roomNumberCount === 1 && capacity !== 1) {
+  if (roomNumberCount === BUNGALO_ROOMS_COUNT && capacity !== BUNGALO_GUESTS_CAPACITY) {
     capacitySelectElement.setCustomValidity('1 room = 1 guest');
-  } else if (roomNumberCount === 2 && (capacity === 0 && capacity > 2)) {
+  } else if (roomNumberCount === FLAT_ROOMS_COUNT && (capacity === PALACE_GUESTS_CAPACITY && capacity > FLAT_GUESTS_CAPACITY)) {
     capacitySelectElement.setCustomValidity('2 rooms = < 2 guests');
-  } else if (roomNumberCount === 3 && (capacity === 0 && capacity > 3)) {
+  } else if (roomNumberCount === HOUSE_ROOMS_COUNT && (capacity === PALACE_GUESTS_CAPACITY && capacity > HOUSE_GUESTS_CAPACITY)) {
     capacitySelectElement.setCustomValidity('3 rooms = < 3 guests');
-  } else if (roomNumberCount === 100 && capacity !== 0) {
+  } else if (roomNumberCount === PALACE_ROOMS_COUNT && capacity !== PALACE_GUESTS_CAPACITY) {
     capacitySelectElement.setCustomValidity('No guests allowed');
   } else {
     capacitySelectElement.setCustomValidity('');
