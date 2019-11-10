@@ -94,7 +94,7 @@ var generateData = function (count) {
   return dataArray;
 };
 
-var appIsActive = false;
+var isAppActive = false;
 var mapElement = document.querySelector('.map');
 var adFormElement = document.querySelector('.ad-form');
 var mapFiltersElement = document.querySelector('.map__filters');
@@ -105,7 +105,7 @@ var roomNumberSelectElement = document.querySelector('#room_number');
 var capacitySelectElement = document.querySelector('#capacity');
 
 var activateApp = function () {
-  appIsActive = true;
+  isAppActive = true;
   setMainMapPinAddress();
   mapElement.classList.remove('map--faded');
 
@@ -119,7 +119,7 @@ var activateApp = function () {
 };
 
 var deactivateApp = function () {
-  appIsActive = false;
+  isAppActive = false;
   setMainMapPinAddress();
   mapElement.classList.add('map--faded');
   adFormElement.classList.add('ad-form--disabled');
@@ -132,7 +132,7 @@ var deactivateApp = function () {
 
 var setMainMapPinAddress = function () {
   var mainMapPinPosition;
-  if (appIsActive) {
+  if (isAppActive) {
     mainMapPinPosition = Math.round((mainMapPinElement.offsetLeft + PIN_WIDTH / 2)) + ', ' + (Math.round(mainMapPinElement.offsetTop) + PIN_HEIGHT);
   } else {
     mainMapPinPosition = Math.round(mainMapPinElement.offsetLeft) + ', ' + Math.round(mainMapPinElement.offsetTop);
