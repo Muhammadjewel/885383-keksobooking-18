@@ -189,7 +189,7 @@ var removeExistingPopupElement = function () {
   }
 };
 
-var generatePopupElement = function (mapPin) {
+var generateAndInsertPopupElement = function (mapPin) {
   var cardElement = generateCardElement(generatedData[mapPin.dataset.index]);
   mapElement.insertBefore(cardElement, mapFiltersContainerElement);
 };
@@ -198,13 +198,13 @@ var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)')
 mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('click', function () {
     removeExistingPopupElement();
-    generatePopupElement(this);
+    generateAndInsertPopupElement(this);
   });
 
   mapPinElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
       removeExistingPopupElement();
-      generatePopupElement(this);
+      generateAndInsertPopupElement(this);
     }
   });
 });
