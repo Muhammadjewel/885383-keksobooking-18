@@ -189,11 +189,15 @@ var removeExistingPopupElement = function () {
   }
 };
 
+var generatePopupElement = function (mapPin) {
+  var cardElement = generateCardElement(generatedData[mapPin.dataset.index]);
+  mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+};
+
 var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('click', function () {
     removeExistingPopupElement();
-    var cardElement = generateCardElement(generatedData[this.dataset.index]);
-    mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+    generatePopupElement(this);
   });
 });
