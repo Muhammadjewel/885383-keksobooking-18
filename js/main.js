@@ -228,6 +228,10 @@ var generateCardElement = function (ad) {
   return cardCloneElement;
 };
 
+var mapFiltersContainerElement = document.querySelector('.map__filters-container');
+var cardElement = generateCardElement(generateData(1)[0]);
+mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+
 mainMapPinElement.addEventListener('mousedown', function () {
   if (isAppActive === false) {
     activateApp();
