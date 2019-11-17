@@ -214,7 +214,7 @@ var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)')
 mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('click', function () {
     closePopupElement();
-    generateAndInsertPopupElement(this);
+    generateAndInsertPopupElement(mapPinElement);
 
     var popupCloseElement = document.querySelector('.popup__close');
     popupCloseElement.addEventListener('click', function () {
@@ -225,7 +225,7 @@ mapPinElements.forEach(function (mapPinElement) {
   mapPinElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEY_CODE) {
       closePopupElement();
-      generateAndInsertPopupElement(this);
+      generateAndInsertPopupElement(mapPinElement);
     }
   });
 });
