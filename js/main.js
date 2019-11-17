@@ -228,9 +228,14 @@ var generateCardElement = function (ad) {
   return cardCloneElement;
 };
 
-mainMapPinElement.addEventListener('mousedown', activateApp);
+mainMapPinElement.addEventListener('mousedown', function () {
+  if (isAppActive === false) {
+    activateApp();
+  }
+});
+
 mainMapPinElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
+  if (evt.keyCode === ENTER_KEY_CODE && isAppActive === false) {
     activateApp();
   }
 });
