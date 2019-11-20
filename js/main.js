@@ -118,6 +118,7 @@ var activateApp = function () {
   adFormFieldsets.forEach(function (adFormFieldsetsItem) {
     adFormFieldsetsItem.disabled = false;
   });
+  checkForRoomTypeComplianceForGuests();
 };
 
 var deactivateApp = function () {
@@ -260,10 +261,6 @@ var checkForRoomTypeComplianceForGuests = function () {
   }
 };
 
-roomNumberSelectElement.addEventListener('change', function () {
-  checkForRoomTypeComplianceForGuests();
-});
+roomNumberSelectElement.addEventListener('change',  checkForRoomTypeComplianceForGuests);
 
-capacitySelectElement.addEventListener('change', function () {
-  checkForRoomTypeComplianceForGuests();
-});
+capacitySelectElement.addEventListener('change',  checkForRoomTypeComplianceForGuests);
