@@ -233,13 +233,13 @@ var mapFiltersContainerElement = document.querySelector('.map__filters-container
 var cardElement = generateCardElement(generateData(1)[0]);
 
 mainMapPinElement.addEventListener('mousedown', function () {
-  if (isAppActive === false) {
+  if (!isAppActive) {
     activateApp();
   }
 });
 
 mainMapPinElement.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE && isAppActive === false) {
+  if (evt.keyCode === ENTER_KEY_CODE && !isAppActive) {
     activateApp();
   }
 });
