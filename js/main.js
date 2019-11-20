@@ -119,6 +119,9 @@ var activateApp = function () {
     adFormFieldsetsItem.disabled = false;
   });
   checkForRoomTypeComplianceForGuests();
+  var mapFiltersContainerElement = document.querySelector('.map__filters-container');
+  var cardElement = generateCardElement(generateData(1)[0]);
+  mapElement.insertBefore(cardElement, mapFiltersContainerElement);
 };
 
 var deactivateApp = function () {
@@ -229,9 +232,6 @@ var generateCardElement = function (ad) {
   return cardCloneElement;
 };
 
-var mapFiltersContainerElement = document.querySelector('.map__filters-container');
-var cardElement = generateCardElement(generateData(1)[0]);
-
 mainMapPinElement.addEventListener('mousedown', function () {
   if (!isAppActive) {
     activateApp();
@@ -261,6 +261,5 @@ var checkForRoomTypeComplianceForGuests = function () {
   }
 };
 
-roomNumberSelectElement.addEventListener('change',  checkForRoomTypeComplianceForGuests);
-
-capacitySelectElement.addEventListener('change',  checkForRoomTypeComplianceForGuests);
+roomNumberSelectElement.addEventListener('change', checkForRoomTypeComplianceForGuests);
+capacitySelectElement.addEventListener('change', checkForRoomTypeComplianceForGuests);
