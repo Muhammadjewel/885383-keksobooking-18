@@ -27,6 +27,8 @@ var MOCK_DATA = {
   ]
 };
 
+var ENTER_KEY_CODE = 13;
+var ESC_KEY_CODE = 27;
 var MAP_CANVAS_WIDTH = 1200;
 var MAP_CANVAS_TOP_Y = 130;
 var MAP_CANVAS_BOTTOM_Y = 630;
@@ -42,7 +44,6 @@ var BUNGALO_GUESTS_CAPACITY = 1;
 var FLAT_GUESTS_CAPACITY = 2;
 var HOUSE_GUESTS_CAPACITY = 3;
 var PALACE_GUESTS_CAPACITY = 0;
-var ENTER_KEY_CODE = 13;
 
 var getRandomText = function (textsArray, arrayIndex) {
   return textsArray[arrayIndex];
@@ -104,24 +105,40 @@ var mainMapPinElement = document.querySelector('.map__pin--main');
 var addressInputElement = document.querySelector('#address');
 var roomNumberSelectElement = document.querySelector('#room_number');
 var capacitySelectElement = document.querySelector('#capacity');
+var mapFiltersContainerElement = document.querySelector('.map__filters-container');
 
+var generatedData = generateData(8);
 var activateApp = function () {
   isAppActive = true;
   setMainMapPinAddress();
   mapElement.classList.remove('map--faded');
-
-  mapElement.classList.remove('map--faded');
   adFormElement.classList.remove('ad-form--disabled');
   mapFiltersElement.classList.remove('ad-form--disabled');
-  renderMapPinElements(generateMapPinElements(generateData(8)));
+  renderMapPinElements(generateMapPinElements(generatedData));
 
   adFormFieldsets.forEach(function (adFormFieldsetsItem) {
     adFormFieldsetsItem.disabled = false;
   });
   checkForRoomTypeComplianceForGuests();
-  var mapFiltersContainerElement = document.querySelector('.map__filters-container');
-  var cardElement = generateCardElement(generateData(1)[0]);
-  mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+
+  var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  mapPinElements.forEach(function (mapPinElement) {
+    mapPinElement.addEventListener('click', function () {
+      closePopupElement();
+      generateAndInsertPopupElement(mapPinElement);
+
+      var popupCloseElement = document.querySelector('.popup__close');
+      popupCloseElement.addEventListener('click', closePopupElement);
+    });
+
+    mapPinElement.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEY_CODE) {
+        closePopupElement();
+        generateAndInsertPopupElement(mapPinElement);
+      }
+    });
+  });
 };
 
 var deactivateApp = function () {
@@ -136,6 +153,10 @@ var deactivateApp = function () {
   });
 };
 
+document.addEventListener('DOMContentLoaded', function () {
+  deactivateApp();
+});
+
 var setMainMapPinAddress = function () {
   var mainMapPinPosition;
   if (isAppActive) {
@@ -146,21 +167,18 @@ var setMainMapPinAddress = function () {
   addressInputElement.value = mainMapPinPosition;
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-  deactivateApp();
-});
-
 var generateMapPinElements = function (pinObjectsArray) {
   var pinElements = [];
   var pinTemplateElement = document.querySelector('#pin');
 
-  pinObjectsArray.forEach(function (pinObject) {
+  pinObjectsArray.forEach(function (pinObject, index) {
     var pinCloneElement = document.importNode(pinTemplateElement.content, true);
     var pinButtonElement = pinCloneElement.querySelector('button');
     var pinImageElement = pinCloneElement.querySelector('img');
 
     pinButtonElement.style.left = pinObject.location.x + 'px';
     pinButtonElement.style.top = pinObject.location.y + 'px';
+    pinButtonElement.dataset.index = index;
 
     pinImageElement.src = pinObject.author.avatar;
     pinImageElement.alt = pinObject.offer.title;
@@ -230,6 +248,27 @@ var generateCardElement = function (ad) {
   popupPhotosElement.insertAdjacentHTML('afterbegin', ad.offer.photos.map(getPopupPhotoElementAsString).join(' '));
 
   return cardCloneElement;
+};
+
+var closePopupElement = function () {
+  var existingPopupElement = document.querySelector('.map__card.popup');
+  if (existingPopupElement) {
+    existingPopupElement.remove();
+  }
+  document.removeEventListener('keydown', popupEscHandler);
+};
+
+var popupEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEY_CODE) {
+    closePopupElement();
+  }
+};
+
+var generateAndInsertPopupElement = function (mapPin) {
+  var cardElement = generateCardElement(generatedData[mapPin.dataset.index]);
+  mapElement.insertBefore(cardElement, mapFiltersContainerElement);
+
+  document.addEventListener('keydown', popupEscHandler);
 };
 
 mainMapPinElement.addEventListener('mousedown', function () {
