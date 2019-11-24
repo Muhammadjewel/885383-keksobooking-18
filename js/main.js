@@ -122,20 +122,22 @@ var activateApp = function () {
   checkForRoomTypeComplianceForGuests();
 
   var mapPinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var openOfferPopupElement = function (mapPinElement) {
+    closeShownPopupElement();
+    generateAndInsertPopupElement(mapPinElement);
+  };
 
   mapPinElements.forEach(function (mapPinElement) {
     mapPinElement.addEventListener('click', function () {
-      closePopupElement();
-      generateAndInsertPopupElement(mapPinElement);
+      openOfferPopupElement(mapPinElement);
 
       var popupCloseElement = document.querySelector('.popup__close');
-      popupCloseElement.addEventListener('click', closePopupElement);
+      popupCloseElement.addEventListener('click', closeShownPopupElement);
     });
 
     mapPinElement.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ENTER_KEY_CODE) {
-        closePopupElement();
-        generateAndInsertPopupElement(mapPinElement);
+        openOfferPopupElement(mapPinElement);
       }
     });
   });
@@ -250,7 +252,7 @@ var generateCardElement = function (ad) {
   return cardCloneElement;
 };
 
-var closePopupElement = function () {
+var closeShownPopupElement = function () {
   var existingPopupElement = document.querySelector('.map__card.popup');
   if (existingPopupElement) {
     existingPopupElement.remove();
@@ -260,7 +262,7 @@ var closePopupElement = function () {
 
 var popupEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEY_CODE) {
-    closePopupElement();
+    closeShownPopupElement();
   }
 };
 
